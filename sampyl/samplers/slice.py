@@ -71,7 +71,7 @@ class Slice(Sampler):
         if self.compwise:
             ordering = range(dims)
             np.random.shuffle(ordering)
-            new_x = self.state.tovector.copy()
+            new_x = self.state.tovector().copy()
             for d in ordering:
                 direction    = np.zeros((dims))
                 direction[d] = 1.0
@@ -126,11 +126,11 @@ class Slice(Sampler):
                         upper       += (upper-lower)
             else:
                 while dir_logprob(lower) > llh_s and \
-                        l_steps_out < max_steps_out:
+                        l_steps_out < self.max_steps_out:
                     l_steps_out += 1
                     lower       -= self.width
                 while dir_logprob(upper) > llh_s and \
-                        u_steps_out < max_steps_out:
+                        u_steps_out < self.max_steps_out:
                     u_steps_out += 1
                     upper       += self.width
 
