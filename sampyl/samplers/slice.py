@@ -14,7 +14,7 @@ from __future__ import division
 
 from ..core import np
 from ..state import State
-from .base import Sampler
+from .base import Sampler, SamplingException
 
 
 class Slice(Sampler):
@@ -145,7 +145,7 @@ class Slice(Sampler):
             if np.isnan(new_llh):
                 print(new_z, direction*new_z + init_x, new_llh,
                       llh_s, init_x, dir_logprob(init_x))
-                raise Exception("Slice sampler got a NaN")
+                raise SamplingException("Slice sampler got a NaN")
             if new_llh > llh_s and \
                     acceptable(new_z, llh_s, start_lower, start_upper):
                 break
@@ -154,7 +154,7 @@ class Slice(Sampler):
             elif new_z > 0:
                 upper = new_z
             else:
-                raise Exception("Slice sampler shrank to zero!")
+                raise SamplingException("Slice sampler shrank to zero!")
 
         if self.verbose:
             print("Steps Out:", l_steps_out, u_steps_out, " Steps In:", steps_in)

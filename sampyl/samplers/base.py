@@ -8,6 +8,10 @@ from ..state import State, func_var_names
 from ..model import init_model
 
 
+class SamplingException(Exception):
+    pass
+
+
 class Sampler(object):
     def __init__(self, logp, start,
                  grad_logp=None,
